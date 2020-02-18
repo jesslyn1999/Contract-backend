@@ -3,8 +3,8 @@ import cors from 'cors';
 import routes from '../api';
 import config from '../config';
 import passport from 'passport';
-import configurePasport from './passport';
-import configureSession from './session';
+import configurePassport from './passport';
+import createSessionConfiguration from './session';
 
 export default ({ app }) => {
     /**
@@ -17,11 +17,8 @@ export default ({ app }) => {
     // Middleware that transforms the raw string of req.body into json
     app.use(bodyParser.json());
 
-    configureSession(app);
-    configurePasport(passport);
-
-    app.use(passport.initialize());
-    app.use(passport.session());
+    app.use(createSessionConfiguration());
+    configurePassport(passport);
 
     // It shows the real origin IP in the heroku or Cloudwatch logs
     app.enable('trust proxy');
