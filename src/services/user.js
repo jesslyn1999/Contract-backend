@@ -25,6 +25,16 @@ const createUser = ({_nama, _username, _role}) => {
     });
 };
 
+const deleteUser = ({_username}) => {
+    return new Promise((resolve, reject) => {
+        const userModel = Container.get('userModel');
+
+        userModel.deleteOne({username: _username}, function (err) {
+            if (err) return handleError (err);
+        });
+    });
+};
+
 const register = userData => {
     return new Promise(async (resolve, reject) => {
         const userModel = Container.get('userModel');
