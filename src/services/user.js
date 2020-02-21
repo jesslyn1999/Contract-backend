@@ -266,6 +266,7 @@ const submitBestStaff = bestStaff =>
     
 export default {
     createUser,
+    deleteUser,
     register,
     getStaff,
     getBph,
