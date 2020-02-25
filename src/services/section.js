@@ -4,7 +4,7 @@ const getSections = (page, perPage, query) => {
     page = page || 1;
     perPage = parseInt(perPage) || 9;
     if (query == undefined) query = '';
-    return new Promise( async(resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
         const sectionModelInstance = Container.get('sectionModel');
         const logger = Container.get('logger');
 
@@ -13,8 +13,8 @@ const getSections = (page, perPage, query) => {
             .find({
                     'title': {
                         '$regex': query,
-                        '$options': 'i'
-                    }
+                        '$options': 'i',
+                    },
                 },
                 'title content')
             .skip((perPage * page) - perPage)
@@ -30,32 +30,46 @@ const getSections = (page, perPage, query) => {
                 reject(err);
             });
     });
-}
+};
 
-const createSection = ({title , content}) => {
+const createSection = ({ title, content }) => {
     return new Promise((resolve, reject) => {
         const sectionModel = Container.get('sectionModel');
 
         const newSection = new sectionModel({
-            title : title,
-            content : content,
+            title: title,
+            content: content,
         });
         newSection.save((err) => {
             if (err) {
-                reject(err); 
-            }else{
-                resolve({ success : true });
+                reject(err);
+            } else {
+                resolve({ success: true });
             }
-        })
-    })
-}
+        });
+    });
+};
 
-const deleteSection = ({_title, _content}) => {
+const deleteSection = ({ _title, _content }) => {
     return new Promise((resolve, reject) => {
         const sectionModel = Container.get('sectionModel');
 
-        sectionModel.deleteOne({title: _title, content: _content}, function (err) {
-            if (err) return handleError (err);
+        sectionModel.deleteOne({ title: _title, content: _content }, function(err) {
+            if (err) return handleError(err);
+        });
+    });
+};
+
+const deleteSectionById = id => {
+    return new Promise((resolve, reject) => {
+        const sectionModel = Container.get('sectionModel');
+
+        sectionModel.findByIdAndRemove(id, function(err) {
+            if (err) {
+                reject(err);
+            } else {
+                resolve({ success: true });
+            }
         });
     });
 };
@@ -65,4 +79,5 @@ export default {
     getSections,
     createSection,
     deleteSection,
+    deleteSectionById,
 };
