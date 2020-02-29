@@ -8,7 +8,8 @@ export default app => {
     const sectionService = Container.get('sectionService');
 
     route.post('/', (req, res) => {
-        sectionService.createSection(req.body)
+        sectionService
+            .createSection(req.body)
             .then(() => {
                 return res.json({
                     request: { success: true, message: null },
@@ -26,8 +27,9 @@ export default app => {
     });
 
     route.get('/:page', (req, res) => {
-        sectionService.getSections(req.params.page, req.query.perpage, req.query.find)
-            .then((result) => {
+        sectionService
+            .getSections(req.params.page, req.query.perpage, req.query.find)
+            .then(result => {
                 return res.json({
                     data: result[0],
                     pages: result[1],
@@ -45,7 +47,8 @@ export default app => {
     });
 
     route.delete('/:id', (req, res) => {
-        sectionService.deleteSectionById(req.params.id)
+        sectionService
+            .deleteSectionById(req.params.id)
             .then(() => {
                 return res.json({
                     request: { success: true, message: null },

@@ -10,14 +10,16 @@ const getSections = (page, perPage, query) => {
 
         const sectionsCount = await sectionModelInstance.countDocuments({});
         sectionModelInstance
-            .find({
-                    'title': {
-                        '$regex': query,
-                        '$options': 'i',
+            .find(
+                {
+                    title: {
+                        $regex: query,
+                        $options: 'i',
                     },
                 },
-                'title content')
-            .skip((perPage * page) - perPage)
+                'title description content',
+            )
+            .skip(perPage * page - perPage)
             .limit(perPage)
             .then(result => {
                 const pages = Math.ceil(sectionsCount / perPage);
@@ -32,15 +34,16 @@ const getSections = (page, perPage, query) => {
     });
 };
 
-const createSection = ({ title, content }) => {
+const createSection = ({ title, content, description }) => {
     return new Promise((resolve, reject) => {
         const sectionModel = Container.get('sectionModel');
 
         const newSection = new sectionModel({
             title: title,
+            description: description,
             content: content,
         });
-        newSection.save((err) => {
+        newSection.save(err => {
             if (err) {
                 reject(err);
             } else {
@@ -54,7 +57,9 @@ const deleteSection = ({ _title, _content }) => {
     return new Promise((resolve, reject) => {
         const sectionModel = Container.get('sectionModel');
 
-        sectionModel.deleteOne({ title: _title, content: _content }, function(err) {
+        sectionModel.deleteOne({ title: _title, content: _content }, function(
+            err,
+        ) {
             if (err) return handleError(err);
         });
     });
@@ -73,7 +78,6 @@ const deleteSectionById = id => {
         });
     });
 };
-
 
 export default {
     getSections,
