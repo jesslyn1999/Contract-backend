@@ -1,8 +1,19 @@
 import { Container } from 'typedi';
 
-const getTemplate = () =>
-{
+const getAllTemplate = () => {
+    return new Promise((resolve, reject) => {
+        const templateModel = Container.get('templateModel');
 
+        templateModel.find({}, fucntion(err, docs) {
+            if (err) {
+                reject(err);
+            }
+            else {
+                resolve({success: true});
+                console.log(docs);
+            }
+        });
+    });
 }
 
 const createTemplateCreator = ({_title, _description, _content}) => {
@@ -25,14 +36,11 @@ const createTemplateCreator = ({_title, _description, _content}) => {
     });
 }
 
-const deleteTemplateCreator = _id =>
-{
-    return new Promise((resolve, reject) =>
-    {
+const deleteTemplateCreator = _id => {
+    return new Promise((resolve, reject) => {
         const templateModel = Container.get('templateModel');
 
-        templateModel.findByIdAndRemove(_id, function(err)
-        {
+        templateModel.findByIdAndRemove(_id, function(err) {
             if (err) {
                 reject(err);
             }
@@ -43,14 +51,11 @@ const deleteTemplateCreator = _id =>
     });
 }
 
-const updateTemplateTitle = ({_id, _title}) =>
-{
-    return new Promise((resolve, reject) =>
-    {
+const updateTemplateTitle = ({_id, _title}) => {
+    return new Promise((resolve, reject) => {
         const templateModel = Container.get('templateModel');
 
-        templateModel.findByIdAndUpdate(_id, { title: _title }, function(err)
-        {
+        templateModel.findByIdAndUpdate(_id, { title: _title }, function(err) {
             if (err) {
                 reject(err);
             }
@@ -61,14 +66,11 @@ const updateTemplateTitle = ({_id, _title}) =>
     });
 }
 
-const updateTemplateDescription = ({_id, _description}) =>
-{
-    return new Promise((resolve, reject) =>
-    {
+const updateTemplateDescription = ({_id, _description}) => {
+    return new Promise((resolve, reject) => {
         const templateModel = Container.get('templateModel');
 
-        templateModel.findByIdAndUpdate(_id, { description: _description }, function(err)
-        {
+        templateModel.findByIdAndUpdate(_id, { description: _description }, function(err) {
             if (err) {
                 reject(err);
             }
