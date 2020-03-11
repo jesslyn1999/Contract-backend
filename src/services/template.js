@@ -83,7 +83,7 @@ const updateTemplateDescription = ({_id, _description}) => {
 
 export
 {
-    getTemplate,
+    getAllTemplate,
     createTemplateCreator,
     deleteTemplateCreator,
     updateTemplateTitle,
