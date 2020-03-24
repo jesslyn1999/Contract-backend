@@ -16,6 +16,41 @@ const getAllTemplate = () => {
     });
 }
 
+const getTemplate = (page, perPage, query) => {
+    page = page || 1;
+    perPage = parseInt(perPage) || 9;
+    if (query == undefined) query = '';
+    return new Promise(async (resolve, reject) => {
+        const templateModel = Container.get('templateModel');
+        const logger = Container.get('logger');
+
+        const templatesCount = await templateModel.countDocuments({});
+        templateMode
+            .find(
+                {
+                    title: {
+                        $regex: query,
+                        $options: 'i',
+                    },
+                },
+                'title description content',
+            )
+            .skip(perPage * page - perPage)
+            .limit(perPage)
+            .then(result => {
+                const pages = Math.ceil(templatesCount / perPage);
+                resolve([result, pages]);
+            })
+            .catch(err => {
+                logger.error(
+                    `[TemplateService][GetTemplate]: Failed to get template by pages. ${err}`,
+                );
+                reject(err);
+            });
+    });
+};
+
+
 const createTemplateCreator = ({_title, _description, _content}) => {
     return new Promise((resolve, reject) => {
         const templateModel = Container.get('templateModel');
