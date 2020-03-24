@@ -8,8 +8,26 @@ export default app => {
     const sectionService = Container.get('sectionService');
 
     route.post('/', (req, res) => {
+        if (!req.body.id) {
+            sectionService
+                .createSection(req.body)
+                .then(() => {
+                    return res.json({
+                        request: { success: true, message: null },
+                    });
+                })
+                .catch(err => {
+                    return res.status(500).json({
+                        request: {
+                            success: false,
+                            message:
+                                'Internal server error, report to admin for assistance',
+                        },
+                    });
+                });
+        }
         sectionService
-            .createSection(req.body)
+            .updateSection(req.body)
             .then(() => {
                 return res.json({
                     request: { success: true, message: null },
@@ -21,6 +39,25 @@ export default app => {
                         success: false,
                         message:
                             'Internal server error, report to admin for assistance',
+                        err,
+                    },
+                });
+            });
+    });
+
+    route.get('/', (req, res) => {
+        sectionService
+            .getSectionById(req.query.id)
+            .then(result => {
+                return res.json({ success: true, message: null, data: result });
+            })
+            .catch(err => {
+                return res.status(500).json({
+                    request: {
+                        success: false,
+                        message:
+                            'Internal server error, report to admin for assistance',
+                        err,
                     },
                 });
             });

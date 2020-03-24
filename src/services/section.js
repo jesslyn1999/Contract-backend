@@ -34,6 +34,16 @@ const getSections = (page, perPage, query) => {
     });
 };
 
+const getSectionById = id => {
+    return new Promise((resolve, reject) => {
+        const sectionModel = Container.get('sectionModel');
+        sectionModel
+            .findById(id)
+            .then(resolve)
+            .catch(reject);
+    });
+};
+
 const createSection = ({ title, content, description }) => {
     return new Promise((resolve, reject) => {
         const sectionModel = Container.get('sectionModel');
@@ -50,6 +60,21 @@ const createSection = ({ title, content, description }) => {
                 resolve({ success: true });
             }
         });
+    });
+};
+
+const updateSection = ({ id, title, description, content }) => {
+    return new Promise((resolve, reject) => {
+        const sectionModel = Container.get('sectionModel');
+        const newSection = {
+            title: title,
+            description: description,
+            content: content,
+        };
+        sectionModel
+            .findByIdAndUpdate(id, newSection)
+            .then(resolve)
+            .catch(reject);
     });
 };
 
@@ -81,7 +106,9 @@ const deleteSectionById = id => {
 
 export default {
     getSections,
+    getSectionById,
     createSection,
     deleteSection,
     deleteSectionById,
+    updateSection,
 };
