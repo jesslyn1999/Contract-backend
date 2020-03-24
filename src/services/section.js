@@ -1,5 +1,29 @@
 import { Container } from 'typedi';
 
+const getAllSections = (keyword = '') => {
+    return new Promise((resolve, reject) => {
+        const sectionModelInstance = Container.get('sectionModel');
+        const logger = Container.get('logger');
+
+        sectionModelInstance
+            .find({
+                title: {
+                    $regex: keyword,
+                },
+            })
+            .select('-createdAt -updatedAt -__v -_id')
+            .then(result => {
+                resolve(result);
+            })
+            .catch(err => {
+                logger.error(
+                    `[SectionService][GetAllSections]: Failed to get all sections. ${err}`,
+                );
+                reject(err);
+            });
+    });
+};
+
 const getSections = (page, perPage, query) => {
     page = page || 1;
     perPage = parseInt(perPage) || 9;
@@ -27,7 +51,7 @@ const getSections = (page, perPage, query) => {
             })
             .catch(err => {
                 logger.error(
-                    `[SectionService][GetAllSections]: Failed to get all sections. ${err}`,
+                    `[SectionService][GetSections]: Failed to get sections by pages. ${err}`,
                 );
                 reject(err);
             });
@@ -105,6 +129,7 @@ const deleteSectionById = id => {
 };
 
 export default {
+    getAllSections,
     getSections,
     getSectionById,
     createSection,

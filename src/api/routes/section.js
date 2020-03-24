@@ -63,6 +63,23 @@ export default app => {
             });
     });
 
+    route.get('/all', (req, res) => {
+        sectionService
+            .getAllSections(req.query.keyword)
+            .then(result => {
+                return res.send(result);
+            })
+            .catch(err => {
+                return res.status(500).json({
+                    request: {
+                        success: false,
+                        message:
+                            'Internal server error, report to admin for assistance',
+                    },
+                });
+            });
+    });
+
     route.get('/:page', (req, res) => {
         sectionService
             .getSections(req.params.page, req.query.perpage, req.query.find)

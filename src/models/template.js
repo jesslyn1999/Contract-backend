@@ -1,26 +1,22 @@
 import mongoose from 'mongoose';
 
-const TemplateSchema = new mongoose.Schema
-(
+const TemplateSchema = new mongoose.Schema(
     {
-        title:
-        {
+        title: {
             type: String,
-            default: "",
+            default: '',
         },
-        description :
-        {
+        description: {
             type: String,
-            default: "",
+            default: '',
         },
-        content:
-        {
+        content: {
             type: String,
-            default: "",
+            default: '',
         },
     },
     {
-        timestamps: true
+        timestamps: true,
     },
 );
 

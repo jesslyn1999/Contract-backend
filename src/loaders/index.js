@@ -9,7 +9,7 @@ export default async ({ expressApp }) => {
     await mongooseLoader();
     Logger.info('✌️ DB loaded and connected!');
 
-    await dependencyInjectorLoader({ models: MongoModels });
+    dependencyInjectorLoader({ models: MongoModels });
     Logger.info('✌️ Dependency Injector loaded');
 
     servicesLoader();
