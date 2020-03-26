@@ -1,7 +1,11 @@
 import userService from './user';
 import adminService from './admin';
+import sectionService from './section';
+import templateService from './template';
 
 export default [
     { name: 'userService', service: userService },
     { name: 'adminService', service: adminService },
+    { name: 'sectionService', service: sectionService },
+    { name: 'templateService', service: templateService },
 ];

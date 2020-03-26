@@ -3,16 +3,17 @@ import { Container } from 'typedi';
 import LocalStrategyModule from 'passport-local';
 import mongoose from 'mongoose';
 
-const enablePassport = passport => {
+const enablePassport = app => {
     const userModel = Container.get('userModel');
+    const passport = Container.get('passport');
 
     passport.use(
         new LocalStrategyModule.Strategy(
-            { usernameField: 'nim' },
-            async (nim, password, done) => {
+            { usernameField: 'username' },
+            async (username, password, done) => {
                 // Matching user
                 let user = await userModel.findOne({
-                    nim: nim,
+                    username: username,
                 });
 
                 if (!user) {
@@ -47,6 +48,9 @@ const enablePassport = passport => {
             },
         );
     });
+
+    app.use(passport.initialize());
+    app.use(passport.session());
 };
 
 export default enablePassport;
