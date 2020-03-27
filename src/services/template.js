@@ -8,7 +8,7 @@ const getAllTemplate = () => {
             if (err) {
                 reject(err);
             } else {
-                resolve({ success: true });
+                resolve({ data: docs });
                 console.log(docs);
             }
         });
@@ -24,7 +24,7 @@ const getTemplate = (page, perPage, query) => {
         const logger = Container.get('logger');
 
         const templatesCount = await templateModel.countDocuments({});
-        templateMode
+        templateModel
             .find(
                 {
                     title: {
