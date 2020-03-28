@@ -1,0 +1,11 @@
+stages:
+  - lint
+
+lint:
+    image: node:12
+    stage: lint
+    before_script:
+      - npm install
+    script:
+      - npm run lint
+
