@@ -7,7 +7,8 @@
   "scripts": {
     "build": "rimraf dist/ && babel src --out-dir dist --source-maps",
     "dev": "clear && nodemon --watch src --exec babel-node src/app.js",
-    "start": "yarn run build && node dist/app.js"
+    "start": "yarn run build && node dist/app.js",
+    "lint": "eslint src/**/*.js "
   },
   "dependencies": {
     "awilix": "^4.2.3",
@@ -35,8 +36,10 @@
     "@babel/core": "^7.7.7",
     "@babel/node": "^7.7.7",
     "@babel/preset-env": "^7.7.7",
-    "eslint": "5.15.1",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-base": "^14.1.0",
     "eslint-config-prettier": "^6.7.0",
+    "eslint-plugin-import": "^2.20.1",
     "eslint-plugin-prettier": "^3.1.2",
     "nodemon": "^2.0.2",
     "prettier": "^1.19.1",

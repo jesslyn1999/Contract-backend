@@ -1,18 +1,21 @@
 {
     "env": {
-        "node":true,
+        "browser": true,
         "es6": true
     },
-    "extends": ["eslint:recommended", "plugin:prettier/recommended"],
-    "rules": {
-        "no-console": "off",
-        "no-unused-vars": ["error", { "argsIgnorePattern": "next" }]
+    "extends": "airbnb-base",
+    "globals": {
+        "Atomics": "readonly",
+        "SharedArrayBuffer": "readonly"
     },
     "parserOptions": {
-        "sourceType": "module",
-        "ecmaVersion": 8,
-        "ecmaFeatures": {
-            "experimentalObjectRestSpread": true
-        }
+        "ecmaVersion": 2018,
+        "sourceType": "module"
+    },
+    "rules": {
+        "indent": ["error", 4],
+        "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+        "react/jsx-indent": [0],
+        "react/jsx-indent-props": [0]
     }
 }
