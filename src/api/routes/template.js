@@ -17,6 +17,9 @@ export default app => {
                     });
                 })
                 .catch(err => {
+                    logger.error(
+                        `[TemplateRoute][CreateNewTemplate]: Failed to save new template. ${err}`,
+                    );
                     return res.status(500).json({
                         request: {
                             success: false,
@@ -25,6 +28,7 @@ export default app => {
                         },
                     });
                 });
+            return;
         }
         templateService
             .updateTemplateDescription(req.body)
@@ -34,24 +38,9 @@ export default app => {
                 });
             })
             .catch(err => {
-                return res.status(500).json({
-                    request: {
-                        success: false,
-                        message:
-                            'Internal server error, report to admin for assistance',
-                        err,
-                    },
-                });
-            });
-    });
-    
-    route.get('/all', (req, res) => {
-        templateService
-            .getAllTemplate()
-            .then(result => {
-                return res.send(result);
-            })
-            .catch(err => {
+                logger.error(
+                    `[TemplateRoute][UpdateTemplate]: Failed to update template. ${err}`,
+                );
                 return res.status(500).json({
                     request: {
                         success: false,
@@ -62,6 +51,25 @@ export default app => {
             });
     });
 
+    route.get('/all', (req, res) => {
+        templateService
+            .getAllTemplate()
+            .then(result => {
+                return res.send(result);
+            })
+            .catch(err => {
+                logger.error(
+                    `[TemplateRoute][GetAllTemplate]: Failed to get all template. ${err}`,
+                );
+                return res.status(500).json({
+                    request: {
+                        success: false,
+                        message:
+                            'Internal server error, report to admin for assistance',
+                    },
+                });
+            });
+    });
 
     route.get('/:page', (req, res) => {
         templateService
@@ -73,6 +81,9 @@ export default app => {
                 });
             })
             .catch(err => {
+                logger.error(
+                    `[TemplateRoute][GetByPagination]: Failed to get by pagination. ${err}`,
+                );
                 return res.status(500).json({
                     request: {
                         success: false,

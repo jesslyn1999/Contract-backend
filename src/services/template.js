@@ -24,7 +24,7 @@ const getTemplate = (page, perPage, query) => {
         const logger = Container.get('logger');
 
         const templatesCount = await templateModel.countDocuments({});
-        templateMode
+        templateModel
             .find(
                 {
                     title: {
@@ -49,8 +49,7 @@ const getTemplate = (page, perPage, query) => {
     });
 };
 
-
-const createTemplateCreator = ({_title, _description, _content}) => {
+const createTemplateCreator = templateData => {
     return new Promise((resolve, reject) => {
         const templateModel = Container.get('templateModel');
         const newTemplate = new templateModel(templateData);
@@ -113,7 +112,8 @@ const updateTemplateDescription = ({ _id, _description }) => {
 
 export default {
     getAllTemplate,
-    createNewTemplate,
+    createTemplateCreator,
+    getTemplate,
     deleteTemplate,
     updateTemplateTitle,
     updateTemplateDescription,
