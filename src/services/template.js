@@ -4,14 +4,10 @@ const getAllTemplate = () => {
     return new Promise((resolve, reject) => {
         const templateModel = Container.get('templateModel');
 
-        templateModel.find({}, (err, docs) => {
-            if (err) {
-                reject(err);
-            } else {
-                resolve({ success: true });
-                console.log(docs);
-            }
-        });
+        templateModel
+            .find()
+            .then(resolve)
+            .catch(reject);
     });
 };
 
