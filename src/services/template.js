@@ -92,6 +92,16 @@ const updateTemplateTitle = ({ _id, _title }) => {
     });
 };
 
+const getTemplateById = id => {
+    return new Promise((resolve, reject) => {
+        const templateModel = Container.get('templateModel');
+        templateModel
+            .findById(id)
+            .then(resolve)
+            .catch(reject);
+    });
+};
+
 const updateTemplateDescription = ({ _id, _description }) => {
     return new Promise((resolve, reject) => {
         const templateModel = Container.get('templateModel');
@@ -112,6 +122,8 @@ const updateTemplateDescription = ({ _id, _description }) => {
 
 export default {
     getAllTemplate,
+    getTemplateById,
+    getTemplate,
     createTemplateCreator,
     getTemplate,
     deleteTemplate,
