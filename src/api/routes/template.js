@@ -8,7 +8,7 @@ export default app => {
     const logger = Container.get('logger');
 
     route.post('/', (req, res) => {
-        if (!req.body.id) {
+        if (!req.body._id) {
             templateService
                 .createTemplateCreator(req.body)
                 .then(() => {
@@ -31,7 +31,7 @@ export default app => {
             return;
         }
         templateService
-            .updateTemplateDescription(req.body)
+            .updateTemplate(req.body)
             .then(() => {
                 return res.json({
                     request: { success: true, message: null },
