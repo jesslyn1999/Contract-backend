@@ -94,9 +94,27 @@ export default app => {
             });
     });
 
+    route.get('/', (req, res) => {
+        templateService
+            .getTemplateById(req.query.id)
+            .then(result => {
+                return res.json({ success: true, message: null, data: result });
+            })
+            .catch(err => {
+                return res.status(500).json({
+                    request: {
+                        success: false,
+                        message:
+                            'Internal server error, report to admin for assistance',
+                        err,
+                    },
+                });
+            });
+    });
+
     route.delete('/:id', (req, res) => {
         templateService
-            .deleteTemplateCreator(req.params.id)
+            .deleteTemplate(req.params.id)
             .then(() => {
                 return res.json({
                     request: { success: true, message: null },
