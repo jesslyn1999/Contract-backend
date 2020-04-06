@@ -136,7 +136,6 @@ export default {
     getTemplateById,
     getTemplate,
     createTemplateCreator,
-    getTemplate,
     deleteTemplate,
     updateTemplate,
     updateTemplateTitle,
