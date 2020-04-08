@@ -1,27 +1,30 @@
 import mongoose from 'mongoose';
 
 const documentSchema = new mongoose.Schema(
+{
+    no_lampiran:
     {
-        no_lampiran: {
-            type: String,
-            default: '',
-        },
-        tanggal_terbit: {
-            type: String,
-            default: '',
-        },
-        nama_pemenang: {
-            type: String,
-            default: '',
-        },
-        nilai_kontrak: {
-            type: Number.
-            default: 0,
-        }
+        type: String,
+        default: '',
     },
+    tanggal_terbit:
     {
-        timestamps: true,
+        type: String,
+        default: '',
     },
-);
+    nama_pemenang:
+    {
+        type: String,
+        default: '',
+    },
+    nilai_kontrak:
+    {
+        type: Number.
+        default: 0,
+    }
+},
+{
+    timestamps: true,
+});
 
 export default mongoose.model('documentModel', documentSchema);
