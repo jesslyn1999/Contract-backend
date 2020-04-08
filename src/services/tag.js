@@ -52,7 +52,7 @@ const updateTag = (keyString, oldValue, newValue) =>
     {
         const tagModelInstance = Container.get('tagModel');
         
-        tagModelInstance.findOneAndRemove({key: keyString, value: oldValue}, {key: keyString, value: oldValue}, function(err)
+        tagModelInstance.findOneAndUpdate({key: keyString, value: oldValue}, {key: keyString, value: newValue}, function(err)
         {
             if (err)
             {
