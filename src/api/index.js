@@ -4,6 +4,7 @@ import admin from './routes/admin';
 import publicRoute from './routes/public';
 import section from './routes/section';
 import template from './routes/template';
+import jamlak from './routes/jamlak';
 
 export default () => {
     const app = Router();
@@ -12,6 +13,7 @@ export default () => {
     admin(app);
     section(app);
     template(app);
+    jamlak(app);
 
     return app;
 };
