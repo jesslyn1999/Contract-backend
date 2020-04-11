@@ -4,14 +4,10 @@ const getAllTemplate = () => {
     return new Promise((resolve, reject) => {
         const templateModel = Container.get('templateModel');
 
-        templateModel.find({}, (err, docs) => {
-            if (err) {
-                reject(err);
-            } else {
-                resolve({ data: docs });
-                console.log(docs);
-            }
-        });
+        templateModel
+            .find()
+            .then(resolve)
+            .catch(reject);
     });
 };
 
@@ -49,8 +45,7 @@ const getTemplate = (page, perPage, query) => {
     });
 };
 
-
-const createTemplateCreator = ({_title, _description, _content}) => {
+const createTemplateCreator = templateData => {
     return new Promise((resolve, reject) => {
         const templateModel = Container.get('templateModel');
         const newTemplate = new templateModel(templateData);
@@ -93,6 +88,16 @@ const updateTemplateTitle = ({ _id, _title }) => {
     });
 };
 
+const getTemplateById = id => {
+    return new Promise((resolve, reject) => {
+        const templateModel = Container.get('templateModel');
+        templateModel
+            .findById(id)
+            .then(resolve)
+            .catch(reject);
+    });
+};
+
 const updateTemplateDescription = ({ _id, _description }) => {
     return new Promise((resolve, reject) => {
         const templateModel = Container.get('templateModel');
@@ -111,11 +116,28 @@ const updateTemplateDescription = ({ _id, _description }) => {
     });
 };
 
+const updateTemplate = ({ _id, title, description, content }) => {
+    return new Promise((resolve, reject) => {
+        const templateModel = Container.get('templateModel');
+        const newTemplate = {
+            title: title,
+            description: description,
+            content: content,
+        };
+        templateModel
+            .findByIdAndUpdate(_id, newTemplate)
+            .then(resolve)
+            .catch(reject);
+    });
+};
+
 export default {
     getAllTemplate,
+    getTemplateById,
     getTemplate,
     createTemplateCreator,
     deleteTemplate,
+    updateTemplate,
     updateTemplateTitle,
     updateTemplateDescription,
 };

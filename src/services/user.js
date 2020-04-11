@@ -3,6 +3,38 @@ import mongoose from 'mongoose';
 import imagemin from 'imagemin';
 import imageminPngquant from 'imagemin-pngquant';
 
+const createUser = ({_nama, _username, _role}) => {
+    return new Promise((resolve, reject) => {
+        const userModel = Container.get('userModel');
+        const bcrypt = Container.get('bcrypt');
+
+        let newUser = new userModel({
+            nama: _nama,
+            username: _username,
+            password: bcrypt.hashSync(_username, bcrypt.genSaltSync(10)),
+            role: _role,
+        });
+        newUser.save((err) => {
+            if (err) {
+                reject(err);
+            }
+            else {
+                resolve({success : true});
+            }
+        });
+    });
+};
+
+const deleteUser = ({_username}) => {
+    return new Promise((resolve, reject) => {
+        const userModel = Container.get('userModel');
+
+        userModel.deleteOne({username: _username}, function (err) {
+            if (err) return handleError (err);
+        });
+    });
+};
+
 const register = userData => {
     return new Promise(async (resolve, reject) => {
         const userModel = Container.get('userModel');
@@ -231,8 +263,10 @@ const submitBestStaff = bestStaff =>
                 reject({ success: false, error: err });
             });
     });
-
+    
 export default {
+    createUser,
+    deleteUser,
     register,
     getStaff,
     getBph,

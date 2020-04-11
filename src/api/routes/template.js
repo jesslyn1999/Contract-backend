@@ -8,7 +8,7 @@ export default app => {
     const logger = Container.get('logger');
 
     route.post('/', (req, res) => {
-        if (!req.body.id) {
+        if (!req.body._id) {
             templateService
                 .createTemplateCreator(req.body)
                 .then(() => {
@@ -17,6 +17,9 @@ export default app => {
                     });
                 })
                 .catch(err => {
+                    logger.error(
+                        `[TemplateRoute][CreateNewTemplate]: Failed to save new template. ${err}`,
+                    );
                     return res.status(500).json({
                         request: {
                             success: false,
@@ -25,13 +28,77 @@ export default app => {
                         },
                     });
                 });
+            return;
         }
         templateService
-            .updateTemplateDescription(req.body)
+            .updateTemplate(req.body)
             .then(() => {
                 return res.json({
                     request: { success: true, message: null },
                 });
+            })
+            .catch(err => {
+                logger.error(
+                    `[TemplateRoute][UpdateTemplate]: Failed to update template. ${err}`,
+                );
+                return res.status(500).json({
+                    request: {
+                        success: false,
+                        message:
+                            'Internal server error, report to admin for assistance',
+                    },
+                });
+            });
+    });
+
+    route.get('/all', (req, res) => {
+        templateService
+            .getAllTemplate()
+            .then(result => {
+                return res.send(result);
+            })
+            .catch(err => {
+                logger.error(
+                    `[TemplateRoute][GetAllTemplate]: Failed to get all template. ${err}`,
+                );
+                return res.status(500).json({
+                    request: {
+                        success: false,
+                        message:
+                            'Internal server error, report to admin for assistance',
+                    },
+                });
+            });
+    });
+
+    route.get('/:page', (req, res) => {
+        templateService
+            .getTemplate(req.params.page, req.query.perpage, req.query.find)
+            .then(result => {
+                return res.json({
+                    data: result[0],
+                    pages: result[1],
+                });
+            })
+            .catch(err => {
+                logger.error(
+                    `[TemplateRoute][GetByPagination]: Failed to get by pagination. ${err}`,
+                );
+                return res.status(500).json({
+                    request: {
+                        success: false,
+                        message:
+                            'Internal server error, report to admin for assistance',
+                    },
+                });
+            });
+    });
+
+    route.get('/', (req, res) => {
+        templateService
+            .getTemplateById(req.query.id)
+            .then(result => {
+                return res.json({ success: true, message: null, data: result });
             })
             .catch(err => {
                 return res.status(500).json({
@@ -44,48 +111,10 @@ export default app => {
                 });
             });
     });
-    
-    route.get('/all', (req, res) => {
-        templateService
-            .getAllTemplate()
-            .then(result => {
-                return res.send(result);
-            })
-            .catch(err => {
-                return res.status(500).json({
-                    request: {
-                        success: false,
-                        message:
-                            'Internal server error, report to admin for assistance',
-                    },
-                });
-            });
-    });
-
-
-    route.get('/:page', (req, res) => {
-        templateService
-            .getTemplate(req.params.page, req.query.perpage, req.query.find)
-            .then(result => {
-                return res.json({
-                    data: result[0],
-                    pages: result[1],
-                });
-            })
-            .catch(err => {
-                return res.status(500).json({
-                    request: {
-                        success: false,
-                        message:
-                            'Internal server error, report to admin for assistance',
-                    },
-                });
-            });
-    });
 
     route.delete('/:id', (req, res) => {
         templateService
-            .deleteTemplateCreator(req.params.id)
+            .deleteTemplate(req.params.id)
             .then(() => {
                 return res.json({
                     request: { success: true, message: null },
