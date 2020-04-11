@@ -31,6 +31,29 @@ export default app => {
                 });
             });
     });
+                    
+    route.post('/', (req, res) => {
+        jamlakService
+            .saveJamlak(req.body)
+            .then(() => {
+                return res.json({
+                    request: { success: true, message: null },
+                });
+            })
+            .catch(err => {
+                logger.error(
+                    `[JamlakRoute][GetJamlak]: Failed to get jamlak. ${err}`,
+                );
+
+                return res.status(500).json({
+                    request: {
+                        success: false,
+                        message:
+                            'Internal server error, report to admin for assistance',
+                    },
+                });
+            });
+    });
 
     app.use('/jamlak', route);
 };

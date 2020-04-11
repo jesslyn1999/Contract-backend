@@ -26,7 +26,24 @@ const getJamlak = no_jamlak => {
             });
     });
 };
+    
+            
+const saveJamlak = jamlakData => {
+    return new Promise((resolve, reject) => {
+        const jamlakModel = Container.get('jamlakModel');
+        const newJamlak = new jamlakModel(jamlakData);
+
+        newJamlak.save(function(err) {
+            if (err) {
+                reject(err);
+            } else {
+                resolve({ success: true });
+            }
+        });
+    });
+};
 
 export default {
     getJamlak,
+    saveJamlak,
 };
