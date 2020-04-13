@@ -89,12 +89,10 @@ const updateTemplateTitle = ({ _id, _title }) => {
 };
 
 const getTemplateById = id => {
-    return new Promise((resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
         const templateModel = Container.get('templateModel');
-        templateModel
-            .findById(id)
-            .then(resolve)
-            .catch(reject);
+        const template = await templateModel.findById(id).catch(reject);
+        resolve(template);
     });
 };
 
