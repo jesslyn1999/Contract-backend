@@ -156,6 +156,52 @@ const saveSPPBJ = (template_id, data_pemenang, data_form, pdf_data) => {
     });
 };
 
+const getAllSppbj = () => {
+    return new Promise((resolve, reject) => {
+        const sppbjModelInstance = Container.get('sppbjModel');
+        const logger = Container.get('logger');
+
+        sppbjModelInstance
+            .find({})
+            .select('-createdAt -updatedAt -__v -_id')
+            .then(result => {
+                resolve(result);
+            })
+            .catch(err => {
+                logger.error(
+                    `[DocumentService][GetAllSPPBJ]: Failed to get all sppbj. ${err}`,
+                );
+                reject(err);
+            });
+    });
+};
+
+const getSppbjByPage = (page, perPage) => {
+    page = page || 1;
+    perPage = parseInt(perPage) || 9;
+    return new Promise(async (resolve, reject) => {
+        const sppbjModelInstance = Container.get('sppbjModel');
+        const logger = Container.get('logger');
+
+        const sectionsCount = await sppbjModelInstance.countDocuments({});
+        sppbjModelInstance
+            .find({})
+            .select('-createdAt -updatedAt -__v -_id')
+            .skip(perPage * page - perPage)
+            .limit(perPage)
+            .then(result => {
+                const pages = Math.ceil(sectionsCount / perPage);
+                resolve([result, pages]);
+            })
+            .catch(err => {
+                logger.error(
+                    `[DocumentService][GetSPPBJByPage]: Failed to get sections by pages. ${err}`,
+                );
+                reject(err);
+            });
+    });
+};
+
 export default {
     addSppbjElement,
     removeSppbjElement,
@@ -166,4 +212,6 @@ export default {
     updateDocsKontrak,
     generateSPPBJ,
     saveSPPBJ,
+    getAllSppbj,
+    getSppbjByPage,
 };
