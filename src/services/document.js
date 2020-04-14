@@ -186,7 +186,7 @@ const getSppbjByPage = (page, perPage) => {
         const sectionsCount = await sppbjModelInstance.countDocuments({});
         sppbjModelInstance
             .find({})
-            .select('-createdAt -updatedAt -__v -_id')
+            .select('-createdAt -updatedAt -__v -generated_document')
             .skip(perPage * page - perPage)
             .limit(perPage)
             .then(result => {

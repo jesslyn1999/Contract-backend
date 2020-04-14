@@ -4,6 +4,7 @@ import sectionService from './section';
 import templateService from './template';
 import jamlakService from './jamlak';
 import documentService from './document';
+import formService from './form';
 
 export default [
     { name: 'userService', service: userService },
@@ -12,4 +13,5 @@ export default [
     { name: 'templateService', service: templateService },
     { name: 'jamlakService', service: jamlakService },
     { name: 'documentService', service: documentService },
+    { name: 'formService', service: formService },
 ];
