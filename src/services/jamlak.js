@@ -26,8 +26,27 @@ const getJamlak = no_jamlak => {
             });
     });
 };
-    
-            
+
+const getJamlakByNomorSppbj = no_sppbj => {
+    return new Promise(async (resolve, reject) => {
+        const jamlakModelInstance = Container.get('jamlakModel');
+        const logger = Container.get('logger');
+
+        jamlakModelInstance
+            .find({
+                nomor_sppbj: no_sppbj,
+            })
+            .select('-createdAt -updatedAt -__v -_id')
+            .then(resolve)
+            .catch(err => {
+                logger.error(
+                    `[JamlakService][GetJamlakByNomorSppbj]: Failed to get jamlak by nomor sppbj. ${err}`,
+                );
+                reject(err);
+            });
+    });
+};
+
 const saveJamlak = jamlakData => {
     return new Promise((resolve, reject) => {
         const jamlakModel = Container.get('jamlakModel');
@@ -46,4 +65,5 @@ const saveJamlak = jamlakData => {
 export default {
     getJamlak,
     saveJamlak,
+    getJamlakByNomorSppbj,
 };

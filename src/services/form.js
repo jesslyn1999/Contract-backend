@@ -1,7 +1,5 @@
-const getAllTag = (id_template, listOfTag) =>
-{
-    return new Promise((resolve, reject) =>
-    {
+const getAllTag = (id_template, listOfTag) => {
+    return new Promise((resolve, reject) => {
         var items, pattern, str, result;
         listOfTag = [];
         // str = Ambil isi template dari id_template
@@ -9,23 +7,18 @@ const getAllTag = (id_template, listOfTag) =>
         pattern = /:(\w+)>>/g;
         result = pattern.exec(str);
 
-        while (result != null)
-        {
+        while (result != null) {
             listOfTag.push(result[1]);
         }
 
-        if (err)
-        {
+        if (err) {
             reject(err);
-        }
-        else
-        {
+        } else {
             resolve(listOfTag);
         }
     });
 };
 
-export default
-{
-    getAllTag
+export default {
+    getAllTag,
 };

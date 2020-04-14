@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { Container } from 'typedi';
+import sppbj from '../../models/sppbj';
 
 const route = Router();
 
@@ -31,7 +32,7 @@ export default app => {
                 });
             });
     });
-                    
+
     route.post('/', (req, res) => {
         jamlakService
             .saveJamlak(req.body)
@@ -45,6 +46,30 @@ export default app => {
                     `[JamlakRoute][GetJamlak]: Failed to get jamlak. ${err}`,
                 );
 
+                return res.status(500).json({
+                    request: {
+                        success: false,
+                        message:
+                            'Internal server error, report to admin for assistance',
+                    },
+                });
+            });
+    });
+
+    route.get('/get-by-sppbj/:nomor_sppbj', (req, res) => {
+        let nomor_sppbj = req.params.nomor_sppbj;
+        jamlakService
+            .getJamlakByNomorSppbj(nomor_sppbj)
+            .then(data_sppbj => {
+                return res.json({
+                    data: data_sppbj,
+                    request: { success: true, message: null },
+                });
+            })
+            .catch(err => {
+                logger.error(
+                    `[JamlakRoute][GetJamlak]: Failed to get jamlak. ${err}`,
+                );
                 return res.status(500).json({
                     request: {
                         success: false,
