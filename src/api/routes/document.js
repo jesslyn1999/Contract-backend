@@ -9,13 +9,15 @@ export default app => {
         const { id_template, data_pemenang, data_form } = req.body;
         documentService
             .generateSPPBJ(id_template, data_pemenang, data_form)
-            .then(generatedDocument => {
+            .then(({ binary_data, name }) => {
                 res.setHeader(
                     'Content-Disposition',
-                    'attachment; filename=' + 'SPPBJ.pdf',
+                    `attachment; filename= ${name}`,
                 );
-                res.contentType('application/pdf');
-                res.send(generatedDocument);
+                res.contentType(
+                    'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                );
+                res.send(binary_data);
             })
             .catch(err => {
                 logger.error(
