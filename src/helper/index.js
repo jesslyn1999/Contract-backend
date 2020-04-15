@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 const GET_TYPE = 0;
 const SET_TYPE = 1;
 
@@ -21,4 +23,19 @@ export function getTagInfoFromMatch(matchingTag) {
     // -8 to remove 8 last character which is &gt;&gt;
     let tagName = matchParts[tagNamePartIdx].slice(0, -8);
     return { type: isSet, tagName };
+}
+
+export function getDocxFromCloudmersive(populatedContent) {
+    return axios({
+        url: 'https://api.cloudmersive.com/convert/html/to/docx',
+        method: 'POST',
+        responseType: 'arraybuffer',
+        headers: {
+            Apikey: process.env.CLOUDMERSIVE_API_KEY,
+            'Content-Type': 'application/json',
+        },
+        data: {
+            Html: populatedContent,
+        },
+    });
 }
