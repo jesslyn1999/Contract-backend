@@ -7,19 +7,26 @@ export default app => {
     let logger = Container.get('logger');
 
     route.get('/alltag', (req, res) => {
-        var listAllTag = [];
+        const { id_template } = req.query;
         formService
-            .getAllTag(req.query.id_template, listAllTag)
+            .getAllTag(id_template)
             .then(listAllTag => {
-                res.send(listAllTag);
+                res.json({
+                    success: true,
+                    message: null,
+                    data: listAllTag,
+                });
             })
             .catch(err => {
-                logger.error('[FormRoute][AllTag]: Failed. ${err}');
+                logger.error(
+                    `[FormRoute][AllTag]: Failed to getAllTag. ${err}`,
+                );
                 return res.status(500).json({
                     request: {
                         success: false,
                         message:
-                            'Internal server error, report to admin for assistance',
+                            'Internal server error, report to admin for assistance' +
+                            err,
                     },
                 });
             });
