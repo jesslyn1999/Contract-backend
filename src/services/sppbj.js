@@ -60,6 +60,7 @@ const saveSPPBJ = (template_id, data_pemenang, data_form, pdf_data) => {
     return new Promise(async (resolve, reject) => {
         const sppbjModel = Container.get('sppbjModel');
         const newSppbjInstance = new sppbjModel({
+            no_sppbj: data_form.NO_SPPBJ,
             template_id,
             data_pemenang,
             data_form,
@@ -82,7 +83,7 @@ const getAllSppbj = () => {
 
         sppbjModelInstance
             .find({})
-            .select('-createdAt -updatedAt -__v -_id')
+            .select('-createdAt -updatedAt -__v -generated_document')
             .then(result => {
                 resolve(result);
             })
@@ -121,9 +122,26 @@ const getSppbjByPage = (page, perPage) => {
     });
 };
 
+const download = sppbj_id => {
+    return new Promise(async (resolve, reject) => {
+        const sppbjModel = Container.get('sppbjModel');
+
+        sppbjModel
+            .findById(sppbj_id)
+            .then(sppbj => {
+                resolve({
+                    name: `Contract-${sppbj.no_sppbj}`,
+                    binary_data: sppbj.generated_document.data,
+                });
+            })
+            .catch(reject);
+    });
+};
+
 export default {
     generateSPPBJ,
     saveSPPBJ,
     getAllSppbj,
     getSppbjByPage,
+    download,
 };

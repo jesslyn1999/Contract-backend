@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 const SPPBJSchema = new mongoose.Schema(
     {
-        no_ssppbj: String,
+        no_sppbj: String,
         template_id: String,
         data_pemenang: Object,
         data_form: Object,
