@@ -77,5 +77,32 @@ export default app => {
             });
     });
 
+    route.get('/download/:id', (req, res) => {
+        contractService
+            .download(req.params.id)
+            .then(({ name, binary_data }) => {
+                res.setHeader(
+                    'Content-Disposition',
+                    `attachment; filename= ${name}`,
+                );
+                res.contentType(
+                    'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                );
+                res.send(binary_data);
+            })
+            .catch(err => {
+                logger.error(
+                    `[ContractRoute][Download]: Failed to get contract for download. ${err}`,
+                );
+                return res.status(500).json({
+                    request: {
+                        success: false,
+                        message:
+                            'Internal server error, report to admin for assistance',
+                    },
+                });
+            });
+    });
+
     app.use('/contract', route);
 };

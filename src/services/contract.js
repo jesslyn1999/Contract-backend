@@ -118,9 +118,26 @@ const getContractByPage = (page, perPage) => {
     });
 };
 
+const download = contract_id => {
+    return new Promise(async (resolve, reject) => {
+        const contractModel = Container.get('contractModel');
+
+        contractModel
+            .findById(contract_id)
+            .then(contract => {
+                resolve({
+                    name: `Contract-${contract.no_contract}`,
+                    binary_data: contract.generated_document.data,
+                });
+            })
+            .catch(reject);
+    });
+};
+
 export default {
     generateContract,
     saveContract,
     getAllContract,
     getContractByPage,
+    download,
 };
