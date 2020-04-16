@@ -3,8 +3,7 @@ import { Container } from 'typedi';
 
 const route = Router();
 
-export default app =>
-{
+export default app => {
     const tagService = Container.get('tagService');
     const logger = Container.get('logger');
     
@@ -30,13 +29,13 @@ export default app =>
                     },
                 });
             });
-    }
+    });
     
     route.delete('/:key', (req, res) =>
     {
         tagService
             .deleteTag(req.params.key)
-            .then
+            .then(() =>
             {
                 return res.json(
                 {
@@ -54,13 +53,13 @@ export default app =>
                     },
                 });
             });
-    }
+    });
     
     route.get('/updatetag', (req, res) =>
     {
         tagService
             .updateTag(req.query.key, req.body.oldValue, req.body.newValue)
-            .then
+            .then(() =>
             {
                 return res.json(
                 {
@@ -78,5 +77,7 @@ export default app =>
                     },
                 });
             });
-    }
-}
+    });
+
+    app.use('/tag', route);
+};
