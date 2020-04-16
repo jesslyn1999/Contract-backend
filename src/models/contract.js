@@ -1,11 +1,12 @@
 import mongoose from 'mongoose';
 
-const SPPBJSchema = new mongoose.Schema(
+const contractSchema = new mongoose.Schema(
     {
-        no_ssppbj: String,
+        no_contract: String,
+        id_ssppbj: String,
+        id_jamlak: String,
         template_id: String,
-        data_pemenang: Object,
-        data_form: Object,
+        form_data: Object,
         generated_document: {
             data: Buffer,
             data_type: {
@@ -18,4 +19,4 @@ const SPPBJSchema = new mongoose.Schema(
     { timestamps: true },
 );
 
-export default mongoose.model('SPPBJ', SPPBJSchema);
+export default mongoose.model('contract', contractSchema);

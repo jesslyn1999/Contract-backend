@@ -3,12 +3,12 @@ import { Container } from 'typedi';
 
 export default app => {
     let route = Router();
-    let documentService = Container.get('documentService');
+    let contractService = Container.get('contractService');
     let logger = Container.get('logger');
-    route.post('/generate_sppbj', (req, res, next) => {
-        const { id_template, data_pemenang, data_form } = req.body;
-        documentService
-            .generateSPPBJ(id_template, data_pemenang, data_form)
+    route.post('/generate_contract', (req, res, next) => {
+        const { id_template, id_sppbj, id_jamlak, data_form } = req.body;
+        contractService
+            .generateSPPBJ(id_template, id_sppbj, id_jamlak, data_form)
             .then(({ binary_data, name }) => {
                 res.setHeader(
                     'Content-Disposition',
@@ -21,7 +21,7 @@ export default app => {
             })
             .catch(err => {
                 logger.error(
-                    `[DocumentRoute][GenerateSPPBJ]: Failed to generate SPPBJ. ${err}`,
+                    `[ContractRoute][GenerateSPPBJ]: Failed to generate contract. ${err}`,
                 );
                 return res.status(500).json({
                     request: {
@@ -33,8 +33,8 @@ export default app => {
             });
     });
 
-    route.get('/get_all_sppbj', (req, res, next) => {
-        documentService
+    route.get('/get_all_contract', (req, res, next) => {
+        contractService
             .getAllSppbj()
             .then(generatedDocument => {
                 res.contentType('application/json');
@@ -42,7 +42,7 @@ export default app => {
             })
             .catch(err => {
                 logger.error(
-                    `[DocumentRoute][GetAllSPPBJ]: Failed to get sppbj. ${err}`,
+                    `[ContractRoute][GetAllContract]: Failed to get all contract. ${err}`,
                 );
                 return res.status(500).json({
                     request: {
@@ -54,8 +54,8 @@ export default app => {
             });
     });
 
-    route.get('/get_sppbj/:page', (req, res) => {
-        documentService
+    route.get('/get_contract/:page', (req, res) => {
+        contractService
             .getSppbjByPage(req.params.page, req.query.perpage)
             .then(result => {
                 return res.json({
@@ -65,7 +65,7 @@ export default app => {
             })
             .catch(err => {
                 logger.error(
-                    `[DocumentRoute][Get_SPPBJ_ByPage]: Failed to get sppbj. ${err}`,
+                    `[ContractRoute][Get_Contract_ByPage]: Failed to get contract by page. ${err}`,
                 );
                 return res.status(500).json({
                     request: {
@@ -77,5 +77,5 @@ export default app => {
             });
     });
 
-    app.use('/document', route);
+    app.use('/contract', route);
 };
