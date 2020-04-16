@@ -19,9 +19,9 @@ const documentSchema = new mongoose.Schema(
     },
     nilai_kontrak:
     {
-        type: Number.
+        type: Number,
         default: 0,
-    }
+    },
 },
 {
     timestamps: true,

@@ -34,9 +34,9 @@ const getJamlakByNomorSppbj = no_sppbj => {
 
         jamlakModelInstance
             .find({
-                nomor_sppbj: no_sppbj,
+                no_sppbj: no_sppbj,
             })
-            .select('-createdAt -updatedAt -__v -_id')
+            .select('-createdAt -updatedAt -__v')
             .then(resolve)
             .catch(err => {
                 logger.error(
@@ -62,8 +62,19 @@ const saveJamlak = jamlakData => {
     });
 };
 
+const updateJamlak = ({ id, ...data }) => {
+    return new Promise((resolve, reject) => {
+        const jamlakModel = Container.get('jamlakModel');
+        jamlakModel
+            .findByIdAndUpdate(id, {...data})
+            .then(resolve)
+            .catch(reject);
+    });
+};
+
 export default {
     getJamlak,
     saveJamlak,
+    updateJamlak,
     getJamlakByNomorSppbj,
 };
