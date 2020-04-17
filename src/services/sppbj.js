@@ -3,6 +3,7 @@ import { replaceAll, getDocxFromCloudmersive } from '../helper';
 
 const generateSPPBJ = (id_template, data_pemenang, form_data) => {
     return new Promise(async (resolve, reject) => {
+        console.log(id_template, data_pemenang, form_data);
         const templateService = Container.get('templateService');
         const logger = Container.get('logger');
 

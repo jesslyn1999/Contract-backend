@@ -35,7 +35,7 @@ export default app => {
 
     route.get('/get_all_contract', (req, res, next) => {
         contractService
-            .getAllSppbj()
+            .getAllContract()
             .then(generatedDocument => {
                 res.contentType('application/json');
                 res.send(generatedDocument);
@@ -56,7 +56,7 @@ export default app => {
 
     route.get('/get_contract/:page', (req, res) => {
         contractService
-            .getSppbjByPage(req.params.page, req.query.perpage)
+            .getContractByPage(req.params.page, req.query.perpage)
             .then(result => {
                 return res.json({
                     data: result[0],

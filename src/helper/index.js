@@ -19,7 +19,7 @@ export function getTagInfoFromMatch(matchingTag) {
     const setGetPartIdx = 0;
     const tagNamePartIdx = 1;
     let matchParts = matchingTag.split(':');
-    let isSet = matchParts[setGetPartIdx].includes('SET');
+    let isSet = matchParts[setGetPartIdx].includes('set');
     // -8 to remove 8 last character which is &gt;&gt;
     let tagName = matchParts[tagNamePartIdx].slice(0, -8);
     return { type: isSet, tagName };
