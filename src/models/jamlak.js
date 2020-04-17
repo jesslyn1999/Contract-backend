@@ -24,7 +24,7 @@ const JamlakSchema = new mongoose.Schema(
             type: String,
         },
     },
-    { timestamps: true, strict: false },
+    { timestamps: true },
 );
 
 export default mongoose.model('jamlakModel', JamlakSchema);
