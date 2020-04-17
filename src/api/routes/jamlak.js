@@ -34,7 +34,7 @@ export default app => {
     });
 
     route.post('/', (req, res) => {
-        if (!req.body.id) {
+        if (!req.body._id) {
             jamlakService
                 .saveJamlak(req.body)
                 .then(() => {
