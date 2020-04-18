@@ -62,13 +62,20 @@ const saveJamlak = jamlakData => {
     });
 };
 
-const updateJamlak = ({ _id, ...data }) => {
+const updateJamlak = ({ _id, ...newJamlakData }) => {
     return new Promise((resolve, reject) => {
         const jamlakModel = Container.get('jamlakModel');
-        jamlakModel
-            .findByIdAndUpdate(_id, data)
-            .then(resolve)
-            .catch(reject);
+        jamlakModel.findById(_id, (err, oldJamlak) => {
+            Object.keys(newJamlakData).forEach(key => {
+                oldJamlak[key] = newJamlakData[key];
+            });
+            oldJamlak.save(function(err) {
+                if (err) {
+                    return reject();
+                }
+                resolve();
+            });
+        });
     });
 };
 

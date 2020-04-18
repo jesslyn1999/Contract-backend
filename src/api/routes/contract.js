@@ -8,7 +8,7 @@ export default app => {
     route.post('/generate_contract', (req, res, next) => {
         const { id_template, id_sppbj, id_jamlak, data_form } = req.body;
         contractService
-            .generateSPPBJ(id_template, id_sppbj, id_jamlak, data_form)
+            .generateContract(id_template, id_sppbj, id_jamlak, data_form)
             .then(({ binary_data, name }) => {
                 res.setHeader(
                     'Content-Disposition',

@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import moment from 'moment';
 
 const JamlakSchema = new mongoose.Schema(
     {
@@ -26,5 +27,18 @@ const JamlakSchema = new mongoose.Schema(
     },
     { timestamps: true },
 );
+
+// Before saving user, make sure to hash and salt password
+JamlakSchema.pre('save', function(next) {
+    moment.locale('id');
+    this.tgl_pembuatan = moment(this.tgl_pembuatan, moment.ISO_8601).format(
+        'LL',
+    );
+    this.tgl_jatuh_tempo = moment(this.tgl_jatuh_tempo, moment.ISO_8601).format(
+        'LL',
+    );
+
+    next();
+});
 
 export default mongoose.model('jamlakModel', JamlakSchema);
