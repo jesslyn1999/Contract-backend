@@ -13,13 +13,18 @@ const generateContract = (template_id, id_sppbj, id_jamlak, form_data) => {
     return new Promise(async (resolve, reject) => {
         let { content } = await templateModel
             .findById(template_id)
+            .lean()
             .catch(reject);
-        let { data_pemenang, data_form, no_ssppbj } = await sppbjModel
+        let { data_pemenang, data_form } = await sppbjModel
             .findById(id_sppbj)
+            .lean()
             .catch(reject);
-        let jamlak = await jamlakModel.findById(id_jamlak).catch(reject);
+        let jamlak = await jamlakModel
+            .findById(id_jamlak)
+            .lean()
+            .catch(reject);
 
-        let getData = { ...data_pemenang, ...data_form, no_ssppbj, ...jamlak };
+        let getData = { ...data_pemenang, ...data_form, ...jamlak };
         let capitalizedGetData = _.mapKeys(getData, (value, key) => {
             return key.toUpperCase();
         });
@@ -34,7 +39,7 @@ const generateContract = (template_id, id_sppbj, id_jamlak, form_data) => {
             .then(async res => {
                 if (res.status === 200) {
                     let saveObject = {
-                        no_contract: getData.no_contract,
+                        no_kontrak: form_data.NO_KONTRAK,
                         id_sppbj,
                         id_jamlak,
                         template_id,
@@ -46,7 +51,7 @@ const generateContract = (template_id, id_sppbj, id_jamlak, form_data) => {
                     await saveContract(saveObject).catch(reject);
                     return resolve({
                         binary_data: res.data,
-                        name: `Contract-${getData.no_contract}.docx`,
+                        name: `Contract-${saveObject.no_contract}.docx`,
                     });
                 }
                 throw new Error(`Cloudmersive request doesn't end with 200 OK`);
