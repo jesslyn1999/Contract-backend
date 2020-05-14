@@ -105,11 +105,13 @@ const updateSection = ({ id, title, description, content }) => {
 const deleteSection = ({ _title, _content }) => {
     return new Promise((resolve, reject) => {
         const sectionModel = Container.get('sectionModel');
-
         sectionModel.deleteOne({ title: _title, content: _content }, function(
             err,
         ) {
-            if (err) return handleError(err);
+            if (err) {
+                return reject(err);
+            }
+            resolve();
         });
     });
 };

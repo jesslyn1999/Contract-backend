@@ -8,10 +8,11 @@ export function replaceAll(str, data_pemenang, data_form) {
 
     return str.replace(re, function(matched) {
         let tagInfo = getTagInfoFromMatch(matched);
-        if (tagInfo.type == GET_TYPE) {
+        if (tagInfo.type === GET_TYPE) {
             return data_pemenang[tagInfo.tagName];
+        } else if (tagInfo.type === SET_TYPE) {
+            return data_form[tagInfo.tagName];
         }
-        return data_form[tagInfo.tagName];
     });
 }
 

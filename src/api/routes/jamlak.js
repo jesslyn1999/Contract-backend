@@ -1,6 +1,5 @@
 import { Router } from 'express';
 import { Container } from 'typedi';
-import sppbj from '../../models/sppbj';
 
 const route = Router();
 
