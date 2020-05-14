@@ -1,0 +1,10 @@
+stages:
+    - lint
+
+lint:
+    image: node:12
+    stage: lint
+    before_script:
+        - yarn install
+    script:
+        - yarn lint:fix
