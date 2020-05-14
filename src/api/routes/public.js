@@ -1,5 +1,4 @@
 import { Router } from 'express';
-import { Container } from 'typedi';
 import passport from 'passport';
 
 const route = Router();

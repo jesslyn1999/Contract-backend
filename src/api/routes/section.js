@@ -1,11 +1,11 @@
 import { Router } from 'express';
 import { Container } from 'typedi';
-import { isAdmin } from '../middlewares/auth';
 
 const route = Router();
 
 export default app => {
     const sectionService = Container.get('sectionService');
+    const logger = Container.get('logger');
 
     route.post('/', (req, res) => {
         if (!req.body.id) {
@@ -17,6 +17,10 @@ export default app => {
                     });
                 })
                 .catch(err => {
+                    logger.error(
+                        `[SectionRoute][CreateSection]: Failed to create section`,
+                        err,
+                    );
                     return res.status(500).json({
                         request: {
                             success: false,
@@ -70,6 +74,10 @@ export default app => {
                 return res.send(result);
             })
             .catch(err => {
+                logger.error(
+                    `[SectionRoute][GetAllSection]: Failed to getAllSection`,
+                    err,
+                );
                 return res.status(500).json({
                     request: {
                         success: false,
@@ -90,6 +98,10 @@ export default app => {
                 });
             })
             .catch(err => {
+                logger.error(
+                    `[SectionRoute][GetSectionbyPage]: Failed to get section by page`,
+                    err,
+                );
                 return res.status(500).json({
                     request: {
                         success: false,
