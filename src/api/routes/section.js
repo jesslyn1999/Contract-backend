@@ -29,24 +29,25 @@ export default app => {
                         },
                     });
                 });
+        } else {
+            sectionService
+                .updateSection(req.body)
+                .then(() => {
+                    return res.json({
+                        request: { success: true, message: null },
+                    });
+                })
+                .catch(err => {
+                    return res.status(500).json({
+                        request: {
+                            success: false,
+                            message:
+                                'Internal server error, report to admin for assistance',
+                            err,
+                        },
+                    });
+                });
         }
-        sectionService
-            .updateSection(req.body)
-            .then(() => {
-                return res.json({
-                    request: { success: true, message: null },
-                });
-            })
-            .catch(err => {
-                return res.status(500).json({
-                    request: {
-                        success: false,
-                        message:
-                            'Internal server error, report to admin for assistance',
-                        err,
-                    },
-                });
-            });
     });
 
     route.get('/', (req, res) => {
