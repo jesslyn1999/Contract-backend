@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
 // if test, read env from CI predefined environment
+console.log('NODE_ENV', process.env.NODE_ENV);
 if (process.env.NODE_ENV !== 'test' || process.env.NODE_ENV !== 'heroku') {
     const configLoading = dotenv.config({ path: `${__dirname}/../../.env` });
 
