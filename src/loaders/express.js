@@ -11,7 +11,7 @@ export default ({ app }) => {
      * Health Check endpoints
      */
     app.get('/status', (req, res) => {
-        res.status(200).end();
+        res.status(200).end('OK');
     });
 
     // Middleware that transforms the raw string of req.body into json
