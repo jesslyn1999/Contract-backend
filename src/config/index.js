@@ -2,10 +2,13 @@ import dotenv from 'dotenv';
 
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
-const configLoading = dotenv.config({ path: `${__dirname}/../../.env` });
+// if test, read env from CI predefined environment
+if (process.env.NODE_ENV !== 'test') {
+    const configLoading = dotenv.config({ path: `${__dirname}/../../.env` });
 
-if (configLoading.error) {
-    throw new Error('Could not find env file! Server is closing!');
+    if (configLoading.error) {
+        throw new Error('Could not find env file! Server is closing!');
+    }
 }
 
 export default {

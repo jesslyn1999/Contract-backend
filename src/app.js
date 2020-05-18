@@ -5,9 +5,9 @@ import express from 'express';
 import Logger from './loaders/logger';
 import mainLoader from './loaders';
 
-async function startServer() {
-    const app = express();
+const app = express();
 
+async function startServer() {
     await mainLoader({ expressApp: app });
 
     app.listen(config.port, err => {
@@ -25,3 +25,5 @@ async function startServer() {
 }
 
 startServer();
+
+module.exports = app;
