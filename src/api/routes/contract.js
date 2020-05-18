@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { Container } from 'typedi';
+import { ErrorToResponseMapper } from '../../error';
 
 export default app => {
     let route = Router();
@@ -94,13 +95,8 @@ export default app => {
                 logger.error(
                     `[ContractRoute][Download]: Failed to get contract for download. ${err}`,
                 );
-                return res.status(500).json({
-                    request: {
-                        success: false,
-                        message:
-                            'Internal server error, report to admin for assistance',
-                    },
-                });
+                let { status, payload } = ErrorToResponseMapper(err);
+                return res.status(status).json(payload);
             });
     });
 

@@ -29,6 +29,9 @@ test:
         - yarn test
 
 deploy:
+    only:
+        - development
+        - master
     stage: deployment
     image: ruby:latest
     script:
