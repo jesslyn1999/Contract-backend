@@ -1,24 +1,35 @@
 image: node:12
-# variables:
-#     NODE_ENV: 'test'
+
 cache:
     paths:
         - node_modules/
 
+before_script:
+    - apt-get update -qy
+    - apt-get install -y ruby-dev
+    - gem install dpl
+
 stages:
-    - lint
-    - test
+    - linting
+    - testing
+    - deployment
 
 lint:
-    stage: lint
+    stage: linting
     before_script:
         - yarn install
     script:
         - yarn lint:fix
 
 test:
-    stage: test
+    stage: testing
     before_script:
         - yarn install
     script:
         - yarn test
+
+deploy:
+    stage: deployment
+    image: ruby:latest
+    script:
+        - dpl --provider=heroku --app=$HEROKU_APP_BE --api-key=$HEROKU_API_KEY
