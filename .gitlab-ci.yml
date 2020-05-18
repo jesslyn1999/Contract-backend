@@ -10,23 +10,23 @@ before_script:
     - gem install dpl
 
 stages:
-    # - linting
-    # - testing
+    - linting
+    - testing
     - deployment
 
-# lint:
-#     stage: linting
-#     before_script:
-#         - yarn install
-#     script:
-#         - yarn lint:fix
+lint:
+    stage: linting
+    before_script:
+        - yarn install
+    script:
+        - yarn lint:fix
 
-# test:
-#     stage: testing
-#     before_script:
-#         - yarn install
-#     script:
-#         - yarn test
+test:
+    stage: testing
+    before_script:
+        - yarn install
+    script:
+        - yarn test
 
 deploy:
     stage: deployment
