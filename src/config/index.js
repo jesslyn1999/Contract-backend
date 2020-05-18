@@ -9,7 +9,7 @@ console.log(
     process.env.NODE_ENV === 'heroku',
 );
 
-if (process.env.NODE_ENV !== 'test' || process.env.NODE_ENV !== 'heroku') {
+if (process.env.NODE_ENV !== 'test' && process.env.NODE_ENV !== 'heroku') {
     const configLoading = dotenv.config({ path: `${__dirname}/../../.env` });
 
     if (configLoading.error) {
