@@ -1,6 +1,7 @@
 import { Container } from 'typedi';
 import { replaceAll, getDocxFromCloudmersive } from '../helper';
 import _ from 'lodash';
+import { NotFoundError } from '../error';
 
 const generateContract = (template_id, id_sppbj, id_jamlak, form_data) => {
     // Services
@@ -126,16 +127,27 @@ const getContractByPage = (page, perPage) => {
 const download = contract_id => {
     return new Promise(async (resolve, reject) => {
         const contractModel = Container.get('contractModel');
+        const logger = Container.get('logger');
 
         contractModel
             .findById(contract_id)
             .then(contract => {
+                if (!contract) {
+                    throw new NotFoundError(
+                        'No contract with such id was found',
+                    );
+                }
                 resolve({
                     name: `Contract-${contract.no_contract}`,
                     binary_data: contract.generated_document.data,
                 });
             })
-            .catch(reject);
+            .catch(err => {
+                logger.error(
+                    `[ContractService][Download]: Failed to get contract for download. ${err}`,
+                );
+                reject(err);
+            });
     });
 };
 
